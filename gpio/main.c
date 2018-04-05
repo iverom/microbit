@@ -1,4 +1,4 @@
-include <stdint.h>
+#include <stdint.h>
 
 #define GPIO ((NRF_GPIO_REGS*)0x50000000)
 
@@ -28,8 +28,8 @@ int main(){
 
 	int sleep = 0;
 	//Finner mask_button_a og mask_button_b, hhv 2^17 og 2^26
-	int mask_button_a = 131072
-	int mask_button_b = 67108864
+	int mask_button_a = 131072;
+	int mask_button_b = 67108864;
 	
 	while(1){
 
