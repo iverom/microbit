@@ -25,12 +25,11 @@ void uart_send(char letter) {
 }
 
 char uart_read() {
-    if (!UART->RXDRDY) { // ikke les
-        return '\0'; 
+    if (!UART->RXDRDY){
+		return '\0';
     }
-
-    UART->STARTRX = 1;
+	char rx;
     UART->RXDRDY = 0;
-    char chr = UART->RXD; // leser bokstaven
-    return chr;
+	rx = UART->RXD; 
+    return rx; 
 }

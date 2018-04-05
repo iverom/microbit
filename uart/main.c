@@ -1,8 +1,9 @@
 #include <stdint.h>
+#include <stdio.h>
 #include "uart.h"
 #include "gpio.h"
 
-
+ssize_t _write(int fd, const void *buf, size_t count); 
 
 int main(){
 	// Configure LED Matrix
@@ -16,6 +17,8 @@ int main(){
 	GPIO->PIN_CNF[26] = 0;
 	int sleep = 0;
 	uart_init();
+
+	//iprintf("Norway has %d counties. \n\r",18); 
 
 	while(1){
 		
@@ -36,9 +39,23 @@ int main(){
 			}
 			uart_send('A');
 		}								
-		//Fra oppg1		
+
+		if(rx != '\0') {
+			uart_send(rx);
+		}
+
 		sleep = 10000;
 		while(--sleep);
 	}
 	return 0;
+}
+
+
+ssize_t _write(int fd, const void *buf, size_t count){
+	char *letter = (char *)(buf); 
+	for (int i = 0; i < count; i++){
+		uart_send(*letter); 		
+		letter++; 
+	}
+	return count; 
 }
