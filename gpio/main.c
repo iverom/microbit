@@ -25,31 +25,29 @@ int main(){
 	// Configure buttons
 	GPIO->PIN_CNF[17] = 0;
 	GPIO->PIN_CNF[26] = 0;
-
 	int sleep = 0;
-	//Finner mask_button_a og mask_button_b, hhv 2^17 og 2^26
-	int mask_button_a = 131072;
-	int mask_button_b = 67108864;
-	
+
 	while(1){
 
-		/* Check if button B is pressed;
-		 * turn on LED matrix if it is. */
-		if ((GPIO->IN & mask_button_a) != mask_button_a){
-			GPIO->OUTCLR = (1 << 13);
-			GPIO->OUTCLR = (1 << 14);
-			GPIO->OUTCLR = (1 << 15); 
+		// if B button pressed 
+		if(!(GPIO->IN & (1<<26))){
+			for(int i = 13; i <= 15; i++){
+				GPIO->OUTSET = (1<<i); 
+			}
 		}
-		/* Check if button A is pressed;
-		 * turn off LED matrix if it is. */
-		else if((GPIO->IN & mask_button_b) != mask_button_b){
-			GPIO->OUTSET = (1 << 13); 
-			GPIO->OUTSET = (1 << 14); 
-			GPIO->OUTSET = (1 << 15); 
+
+		//if A button pressed
+		else if(!(GPIO->IN & (1<<17))){
+			for(int i = 13; i <= 15; i++){
+				GPIO->OUTCLR = (1<<i); 
+			}
 		}								
 		sleep = 10000;
+
 		while(--sleep);
+
 	}
+	
 	return 0;
 }
 
